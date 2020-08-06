@@ -43,7 +43,7 @@ migrations/
 
 #Test
 tmp/
-static/.DS_Store
+app/static/.DS_Store
 
 venv/
 .DS_Store
@@ -55,3 +55,4 @@ node_modules/
 upworks/
 package-lock.json
 serverless.yml
+.python-version

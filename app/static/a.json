@@ -1,0 +1,64 @@
+{
+  "apiVersion": "extensions/v1beta1",
+  "kind": "Deployment",
+  "metadata": {
+    "annotations": {},
+    "labels": {
+      "app": "fr-flask-sufi"
+    },
+    "name": "fr-flask-sufi",
+    "namespace": "test"
+  },
+  "spec": {
+    "replicas": 1,
+    "selector": {
+      "matchLabels": {
+        "app": "fr-flask-sufi"
+      }
+    },
+    "strategy": {
+      "rollingUpdate": {
+        "maxSurge": "25%",
+        "maxUnavailable": "25%"
+      },
+      "type": "RollingUpdate"
+    },
+    "template": {
+      "metadata": {
+        "creationTimestamp": null,
+        "labels": {
+          "app": "fr-flask-sufi"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "env": [
+              {
+                "name": "PORT",
+                "value": "5000"
+              },
+              {
+                "name": "PRE_SERVICE_HOST_URL",
+                "value": "http://fr-flask-preprocess-service:5001/v1/create_encoding"
+              }
+            ],
+            "image": "jiovishwamregistry.azurecr.io/test/sufi:loadtestv1",
+            "imagePullPolicy": "IfNotPresent",
+            "name": "fr-flask-sufi",
+            "resources": {
+              "request": {"cpu": 6}
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File"
+          }
+        ],
+        "dnsPolicy": "ClusterFirst",
+        "restartPolicy": "Always",
+        "schedulerName": "default-scheduler",
+        "securityContext": {},
+        "terminationGracePeriodSeconds": 30
+      }
+    }
+  }
+}
